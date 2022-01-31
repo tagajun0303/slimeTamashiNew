@@ -1,8 +1,11 @@
-Ôªøusing System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Sc_AniTest : MonoBehaviour {
+// ÉAÉ^ÉbÉ`ÇµÇΩGameObjectÇ…RigidbodyÇ™ÉAÉ^ÉbÉ`Ç≥ÇÍÇƒÇ¢Ç»Ç¢èÍçáÅAÉAÉ^ÉbÉ`Ç∑ÇÈ
+[RequireComponent(typeof(Rigidbody))]
+public class Move : MonoBehaviour
+{
 
     // Start is called before the first frame update
     public Rigidbody rb;
@@ -30,61 +33,66 @@ public class Sc_AniTest : MonoBehaviour {
 
     void MovementControll()
     {
-        //ÁßªÂãï
+        //à⁄ìÆ
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            //„Éû„Ç¶„ÇπÂ∑¶„ÇØ„É™„ÉÉ„ÇØÊôÇ„Å´ÂßãÁÇπÂ∫ßÊ®ô„Çí‰ª£ÂÖ•
+            //É}ÉEÉXç∂ÉNÉäÉbÉNéûÇ…énì_ç¿ïWÇë„ì¸
             startPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+            Debug.Log("1");
+
         }
 
         if (Input.GetKey(KeyCode.Mouse0))
         {
-
-            //Êäº„Åó„Å¶„ÅÑ„ÇãÊúÄ‰∏≠„Å´‰ªä„ÅÆÂ∫ßÊ®ô„Çí‰ª£ÂÖ•
+            Debug.Log("2");
+            //âüÇµÇƒÇ¢ÇÈç≈íÜÇ…ç°ÇÃç¿ïWÇë„ì¸
             currentPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
             differenceDisVector2 = currentPos - startPos;
 
-            //„Çπ„ÉØ„Ç§„ÉóÈáè„Å´„Çà„Å£„Å¶Speed„ÇíÂ§âÂåñ„Åï„Åõ„Çã.„Åì„ÅÆÊôÇ„ÄÅÁµ∂ÂØæÂÄ§„Å´„Åô„Çã„ÄÇ
+            //ÉXÉèÉCÉvó Ç…ÇÊÇ¡ÇƒSpeedÇïœâªÇ≥ÇπÇÈ.Ç±ÇÃéûÅAê‚ëŒílÇ…Ç∑ÇÈÅB
             differenceDisFloat = differenceDisVector2.x * differenceDisVector2.y;
             differenceDisFloat /= 100;
             differenceDisFloat = Mathf.Abs(differenceDisFloat);
 
-            //„Çø„ÉÉ„Éó„Åó„Åü„Å†„Åë„ÅßÂãï„ÅÑ„Å¶„Åó„Åæ„ÅÜ„ÅÆ„Åß„ÄÅË∑ùÈõ¢„ÅåÁü≠„Åë„Çå„Å∞Âãï„Åã„Å™„ÅÑ„Çà„ÅÜ„Å´„Åô„Çã„ÄÇ
+            //É^ÉbÉvÇµÇΩÇæÇØÇ≈ìÆÇ¢ÇƒÇµÇ‹Ç§ÇÃÇ≈ÅAãóó£Ç™íZÇØÇÍÇŒìÆÇ©Ç»Ç¢ÇÊÇ§Ç…Ç∑ÇÈÅB
             if (differenceDisFloat > 1)
             {
                 move = true;
 
 
-                //ÊúÄÈ´òÈÄüÂ∫¶
+                //ç≈çÇë¨ìx
                 if (differenceDisFloat > 1.25f)
                 {
                     differenceDisFloat = 1.25f;
                 }
 
-                //ÊúÄ‰ΩéÈÄüÂ∫¶
+                //ç≈í·ë¨ìx
                 if (differenceDisFloat < 0.25f)
                 {
                     differenceDisFloat = 0.25f;
                 }
 
                 speed = differenceDisFloat;
-                //„ÇÇ„Åóspeed„Åå0‰ª•‰∏ä„Åß„ÅÇ„Çå„Å∞„ÄÅ„Ç¢„Éã„É°„Éº„Ç∑„Éß„É≥„Åï„Åõ„Çã
+                //Ç‡ÇµspeedÇ™0à»è„Ç≈Ç†ÇÍÇŒÅAÉAÉjÉÅÅ[ÉVÉáÉìÇ≥ÇπÇÈ
                 if (speed > 0)
                 {
                     anim.SetBool("is_walking", true);
                 }
 
-                //ÂõûËª¢„Åô„ÇãËßíÂ∫¶Ë®àÁÆó
+                //âÒì]Ç∑ÇÈäpìxåvéZ
                 radian = Mathf.Atan2(differenceDisVector2.x, differenceDisVector2.y) * Mathf.Rad2Deg;
+                Debug.Log("3");
             }
         }
         else
         {
             rotation = false;
+            Debug.Log("4");
         }
 
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
+            Debug.Log("5");
             speed = 0;
             move = false;
             rb.velocity = Vector3.zero;
@@ -95,11 +103,13 @@ public class Sc_AniTest : MonoBehaviour {
 
     void Movement()
     {
+        Debug.Log("6");
         if (move == true)
         {
+            Debug.Log("7");
             rb.velocity = transform.forward * speed;
             rb.transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, radian, 0), 10);
         }
     }
-
 }
+
